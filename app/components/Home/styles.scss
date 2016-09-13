@@ -1,0 +1,20 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .header {
+    color: lightskyblue;
+    font-size: 100px;
+    margin-top: 200px;
+    margin-bottom: 0;
+    font-family: serif;
+  }
+
+  .subHeader {
+    color: gray;
+    font-size: 40px;
+    font-family: serif;
+  }
+}
