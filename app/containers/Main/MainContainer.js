@@ -44,10 +44,10 @@ const MainContainer = React.createClass({
   }
 })
 
-function mapStateToProps (state) {
+function mapStateToProps ({users}) {
   return {
-    isAuthed: state.isAuthed,
-    isFetching: state.isFetching,
+    isAuthed: users.isAuthed,
+    isFetching: users.isFetching,
   }
 }
 
