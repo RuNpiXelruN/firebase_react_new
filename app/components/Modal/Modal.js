@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { default as ReactModal } from 'react-modal'
+import { formatDuck } from 'helpers/utils'
 
 Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -9,12 +10,12 @@ Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   updateDuckText: PropTypes.func.isRequired,
   isSubmitDisabled: PropTypes.bool.isRequired,
+  duckFanout: PropTypes.func.isRequired,
 }
 
 export default function Modal (props) {
   function submitDuck () {
-    console.log('DUCK: ', props.duckText)
-    console.log('USER: ', props.user)
+    props.duckFanout(formatDuck(props.duckText, props.user))
   }
 
   return (
