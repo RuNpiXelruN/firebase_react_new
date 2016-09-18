@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import { DuckContainer } from 'containers'
 
 NewDucksAvailable.propTypes = {
   handleClick: PropTypes.func.isRequired,
@@ -29,7 +30,7 @@ export default function Feed (props) {
         ? <p>{'Oh damnn'}<br/>{'It appears you have no posts yet :('}</p>
         : null}
       {props.duckIds.map((id) => (
-        <p>Duck Id: {id}</p>
+        <DuckContainer duckId={id} key={id} />
       ))}
       {props.error ? <p>{props.error}</p> : null}
     </div>

@@ -87,6 +87,7 @@ export default function feed (state = initialState, action) {
         isFetching: false,
         error: '',
         duckIds: action.duckIds,
+        newDucksToAdd: false,
       }
     case ADD_NEW_DUCK_ID_TO_FEED :
       return {
