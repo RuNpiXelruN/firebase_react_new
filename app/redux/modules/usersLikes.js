@@ -60,16 +60,30 @@ export function addAndHandleLike (duckId, e) {
 
 export function handleDeleteLike (duckId, e) {
   e.stopPropagation()
-  dispatch(removeLike(duckId))
 
-  const uid = getState().users.authedId
-  Promise.all([
-    deleteFromUsersLikes(uid, duckId),
-    decrementNumberOfLikes(duckId)
-  ]).catch((err) => {
-    console.warn(err)
-    dispatch(addLike(duckId))
-  })
+  return function (dispatch, getState) {
+    dispatch(removeLike(duckId))
+
+    const uid = getState().users.authedId
+    Promise.all([
+      deleteFromUsersLikes(uid, duckId),
+      decrementNumberOfLikes(duckId)
+    ]).catch((err) => {
+      console.warn(err)
+      dispatch(addLike(duckId))
+    })
+  }
+}
+
+export function setUsersLikes () {
+  return function (dispatch, getState) {
+    const uid = getState().users.authedId
+
+    dipatch(fetchingLikes())
+    fetchUsersLikes(uid)
+      .then((likes) => dispatch(fetchingLikesSuccess(likes)))
+      .catch((err) => dispatch(fetchingLikesError(err)))
+  }
 }
 
 const initialState = {
