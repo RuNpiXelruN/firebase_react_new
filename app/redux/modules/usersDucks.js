@@ -59,7 +59,7 @@ export function fetchAndHandleUsersDucks (uid) {
   return function (dispatch, getState) {
     dispatch(fetchingUsersDucks())
 
-    return fetchUsersDucks(uid)
+    fetchUsersDucks(uid)
       .then((ducks) => dispatch(addMultipleDucks(ducks)))
       .then(({ducks}) => dispatch(
         fetchingUsersDucksSuccess(

@@ -31,7 +31,6 @@ const DuckContainer = React.createClass({
   },
   handleClick (e) {
     e.preventDefault()
-    this.props.hideReplyBtn = true
     this.context.router.push('/duckDetail/' + this.props.duck.duckId)
   },
   render () {

@@ -76,7 +76,7 @@ export function fetchAndHandleUser (uid) {
   return function (dispatch) {
     dispatch(fetchingUser())
 
-    return fetchUser(uid)
+    fetchUser(uid)
       .then((user) => dispatch(fetchingUserSuccess(uid, user, Date.now())))
       .catch((error) => dispatch(fetchingUserFailure(error)))
   }
