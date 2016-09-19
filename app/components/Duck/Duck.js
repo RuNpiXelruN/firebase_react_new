@@ -2,26 +2,28 @@ import React, { PropTypes } from 'react'
 import { formatTimestamp } from 'helpers/utils'
 import Reply from 'react-icons/lib/fa/mail-reply'
 import Star from 'react-icons/lib/fa/star'
-
-const { func, object, string, array, bool, number } = PropTypes
+// import {
+//   duckContainer, contentContainer, avatar, actionContainer,
+//   header, text, likeReplyContainer, icon, likedIcon, author,
+// } from './styles.css'
 
 Duck.propTypes = {
   duck: PropTypes.shape({
-    avatar: string.isRequired,
-    duckId: string.isRequired,
-    name: string.isRequired,
-    text: string.isRequired,
-    timestamp: number.isRequired,
-    uid: string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    duckId: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+    uid: PropTypes.string.isRequired,
   }),
-  onClick: func,
-  isLiked: bool.isRequired,
-  addAndHandleLike: func.isRequired,
-  handleDeleteLike: func.isRequired,
-  numberOfLikes: number,
-  hideReplyBtn: bool.isRequired,
-  hideLikeCount: bool.isRequired,
-  goToProfile: func.isRequired,
+  onClick: PropTypes.func,
+  isLiked: PropTypes.bool.isRequired,
+  addAndHandleLike: PropTypes.func.isRequired,
+  handleDeleteLike: PropTypes.func.isRequired,
+  numberOfLikes: PropTypes.number,
+  hideReplyBtn: PropTypes.bool.isRequired,
+  hideLikeCount: PropTypes.bool.isRequired,
+  goToProfile: PropTypes.func.isRequired,
 }
 
 export default function Duck (props) {
@@ -29,9 +31,9 @@ export default function Duck (props) {
   const starFn = props.isLiked === true ? props.handleDeleteLike : props.addAndHandleLike
   return (
     <div
-      // className="duckContainer"
-      // style="cursor: {props.hideReplyBtn === true ? 'default' : 'pointer'}"
-      onClick={props.onClick} >
+      // className={duckContainer}
+      // style={{cursor: props.hideReplyBtn === true ? 'default' : 'pointer'}}
+      onClick={props.onClick}>
         <img src={props.duck.avatar} />
         <div >
           <div >
@@ -42,11 +44,12 @@ export default function Duck (props) {
           <div >
             {props.hideReplyBtn === true
               ? null
-              : <Reply  />}
-            <div >
-              <Star onClick={(e) => starFn(props.duck.duckId, e)}/>
-              { props.hideLikeCount === true ? null : <div>{props.numberOfLikes}</div> }
-            </div>
+              : <Reply  />
+            }
+          </div>
+          <div >
+            <Star  onClick={(e) => starFn(props.duck.duckId, e)} />
+            {props.hideLikeCount === true ? null : <div>{props.numberOfLikes}</div>}
           </div>
         </div>
     </div>

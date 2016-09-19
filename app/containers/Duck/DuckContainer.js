@@ -1,43 +1,39 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { Duck } from 'components'
-import * as usersLikesActions from 'redux/modules/usersLikes'
+import * as usersLikesAction from 'redux/modules/usersLikes'
+const { func, object, bool, number } = PropTypes
 
-const { func, object, string, bool, number } = PropTypes
-
-const DuckContainer = React.createClass ({
+const DuckContainer = React.createClass({
   propTypes: {
     duck: object.isRequired,
-    numberOfLikes: number,
-    isLiked: bool.isRequired,
+    handleClick: func,
     hideLikeCount: bool.isRequired,
     hideReplyBtn: bool.isRequired,
-    handleDeleteLike: func.isRequired,
+    isLiked: bool.isRequired,
+    numberOfLikes: number,
     addAndHandleLike: func.isRequired,
+    handleDeleteLike: func.isRequired,
   },
-
   contextTypes: {
     router: PropTypes.object.isRequired,
   },
-
   getDefaultProps () {
     return {
-      hideLikeCount: true,
       hideReplyBtn: false,
+      hideLikeCount: true,
     }
   },
-
   goToProfile (e) {
     e.stopPropagation()
     this.context.router.push('/' + this.props.duck.uid)
   },
-
   handleClick (e) {
-    e.stopPropagation()
-    this.context.router.push('/duckDetail' + this.props.duck.duckId)
+    e.preventDefault()
+    this.props.hideReplyBtn = true
+    this.context.router.push('/duckDetail/' + this.props.duck.duckId)
   },
-
   render () {
     return (
       <Duck
@@ -45,7 +41,7 @@ const DuckContainer = React.createClass ({
         onClick={this.props.hideReplyBtn === true ? null : this.handleClick}
         {...this.props} />
     )
-  }
+  },
 })
 
 function mapStateToProps ({ducks, likeCount, usersLikes}, props) {
@@ -58,8 +54,7 @@ function mapStateToProps ({ducks, likeCount, usersLikes}, props) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return bindActionCreators( usersLikesActions, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DuckContainer)
+export default connect(
+  mapStateToProps,
+  (dispatch) => bindActionCreators(usersLikesAction, dispatch)
+)(DuckContainer)

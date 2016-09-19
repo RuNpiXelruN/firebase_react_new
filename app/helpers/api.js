@@ -3,10 +3,9 @@ import { ref } from 'config/constants'
 function saveToDucks (duck) {
   const duckId = ref.child('ducks').push().key
   const duckPromise = ref.child(`ducks/${duckId}`).set({...duck, duckId})
-
   return {
     duckId,
-    duckPromise
+    duckPromise,
   }
 }
 
@@ -22,21 +21,19 @@ function saveLikeCount (duckId) {
 export function saveDuck (duck) {
   const { duckId, duckPromise } = saveToDucks(duck)
 
-  return Promise.all ([
+  return Promise.all([
     duckPromise,
     saveToUsersDucks(duck, duckId),
     saveLikeCount(duckId),
   ]).then(() => ({...duck, duckId}))
 }
 
-export function listenToFeed (cb, errorCb) {
+export function listenToFeed (cb, errorCB) {
   ref.child('ducks').on('value', (snapshot) => {
     const feed = snapshot.val() || {}
-    const sortedIds = Object.keys(feed).sort((a, b) => {
-      return feed[b].timestamp - feed[a].timestamp
-    })
+    const sortedIds = Object.keys(feed).sort((a, b) => feed[b].timestamp - feed[a].timestamp)
     cb({feed, sortedIds})
-  }, errorCb)
+  }, errorCB)
 }
 
 export function fetchUsersLikes (uid) {
@@ -49,7 +46,7 @@ export function saveToUsersLikes (uid, duckId) {
 }
 
 export function deleteFromUsersLikes (uid, duckId) {
-  return ref.child(`usersLikes/${uid}/${duckId}`).set(false)
+  return ref.child(`usersLikes/${uid}/${duckId}`).set(null)
 }
 
 export function incrementNumberOfLikes (duckId) {
@@ -60,4 +57,14 @@ export function incrementNumberOfLikes (duckId) {
 export function decrementNumberOfLikes (duckId) {
   return ref.child(`likeCount/${duckId}`)
     .transaction((currentValue = 0) => currentValue - 1)
+}
+
+export function fetchUsersDucks (uid) {
+  return ref.child(`usersDucks/${uid}`).once('value')
+    .then((snapshot) => snapshot.val() || {})
+}
+
+export function fetchUser (uid) {
+  return ref.child(`users/${uid}`).once('value')
+    .then((snapshot) => snapshot.val())
 }

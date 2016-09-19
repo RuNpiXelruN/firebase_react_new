@@ -3,8 +3,8 @@ import { closeModal } from './modal'
 import { addSingleUsersDuck } from './usersDucks'
 
 const FETCHING_DUCK = 'FETCHING_DUCK'
-const FETCHING_DUCK_SUCCESS = 'FETCHING_DUCK_SUCCESS'
 const FETCHING_DUCK_ERROR = 'FETCHING_DUCK_ERROR'
+const FETCHING_DUCK_SUCCESS = 'FETCHING_DUCK_SUCCESS'
 const ADD_DUCK = 'ADD_DUCK'
 const ADD_MULTIPLE_DUCKS = 'ADD_MULTIPLE_DUCKS'
 const REMOVE_FETCHING = 'REMOVE_FETCHING'
@@ -15,11 +15,11 @@ function fetchingDuck () {
   }
 }
 
-function fetchingDuckError () {
+function fetchingDuckError (error) {
   console.warn(error)
   return {
     type: FETCHING_DUCK_ERROR,
-    error: 'Error fetching duck',
+    error: 'Error fetching Duck',
   }
 }
 
@@ -43,25 +43,25 @@ function addDuck (duck) {
   }
 }
 
-export function duckFanout (duck) {
-  return function (dispatch, getState) {
-    const uid = getState().users.authedId
-    saveDuck(duck)
-      .then((duckWithId) => {
-        dispatch(addDuck(duckWithId))
-        dispatch(closeModal())
-        dispatch(addSingleUsersDuck(uid, duckWithId.duckId))
-      })
-      .catch((err) => {
-        console.warn('Error in duckFanout:', err)
-      })
-  }
-}
-
 export function addMultipleDucks (ducks) {
   return {
     type: ADD_MULTIPLE_DUCKS,
     ducks,
+  }
+}
+
+export function duckFanout (duck) {
+  return function (dispatch, getState) {
+    const uid = getState().users.authedId
+    saveDuck(duck)
+      .then((duckWithID) => {
+        dispatch(addDuck(duckWithID))
+        dispatch(closeModal())
+        dispatch(addSingleUsersDuck(uid, duckWithID.duckId))
+      })
+      .catch((err) => {
+        console.warn('Error in duckFanout', err)
+      })
   }
 }
 
@@ -76,13 +76,13 @@ export default function ducks (state = initialState, action) {
       return {
         ...state,
         isFetching: true,
-        error: '',
       }
+    case ADD_DUCK :
     case FETCHING_DUCK_SUCCESS :
       return {
         ...state,
-        isFetching: false,
         error: '',
+        isFetching: false,
         [action.duck.duckId]: action.duck,
       }
     case FETCHING_DUCK_ERROR :

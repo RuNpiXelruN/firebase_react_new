@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import { DuckContainer } from 'containers'
+// import { userContainer, header } from './styles.css'
+// import { errorMsg } from 'sharedStyles/styles.css'
 
 User.propTypes = {
   noUser: PropTypes.bool.isRequired,
