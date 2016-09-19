@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { DuckContainer } from 'containers'
+import { loading } from './styles.scss'
 
 DuckDetails.propTypes = {
   duckId: PropTypes.string.isRequired,
@@ -12,7 +13,7 @@ export default function DuckDetails (props) {
   return (
     <div>
       {props.isFetching === true
-      ? <div>Loading...</div>
+      ? <div className={loading}>{'Loading&#8230;'}</div>
     : <div>
         <div className="duckContent">
           <DuckContainer duckId={props.duckId} hideLikeCount={false} hideReplyBtn={true} />
