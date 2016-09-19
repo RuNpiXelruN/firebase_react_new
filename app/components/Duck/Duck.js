@@ -29,12 +29,12 @@ export default function Duck (props) {
   const starFn = props.isLiked === true ? props.handleDeleteLike : props.addAndHandleLike
   return (
     <div
-      // className="duckContainer"
-      // style="cursor: {props.hideReplyBtn === true ? 'default' : 'pointer'}"
-      onClick={props.onClick} >
-        <img src={props.duck.avatar} />
+      // className={duckContainer}
+      // style={{cursor: props.hideReplyBtn === true ? 'default' : 'pointer'}}
+      onClick={props.onClick}>
+        <img src={props.duck.avatar}/>
         <div >
-          <div >
+          <div>
             <div onClick={props.goToProfile} >{props.duck.name}</div>
             <div>{formatTimestamp(props.duck.timestamp)}</div>
           </div>
@@ -42,10 +42,10 @@ export default function Duck (props) {
           <div >
             {props.hideReplyBtn === true
               ? null
-              : <Reply  />}
+              : <Reply />}
             <div >
-              <Star onClick={(e) => starFn(props.duck.duckId, e)}/>
-              { props.hideLikeCount === true ? null : <div>{props.numberOfLikes}</div> }
+              <Star onClick={(e) => starFn(props.duck.duckId, e)} />
+              {props.hideLikeCount === true ? null : <div>{props.numberOfLikes}</div>}
             </div>
           </div>
         </div>
