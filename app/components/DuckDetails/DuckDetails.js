@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import { DuckContainer } from 'containers'
 import { loading } from './styles.scss'
-// import { RepliesContainer } from 'containers'
 import { formatReply } from 'helpers/utils'
+import { RepliesContainer } from 'containers'
 
 Reply.propTypes = {
   submit: PropTypes.func.isRequired,
@@ -49,7 +49,7 @@ export default function DuckDetails ({duckId, isFetching, authedUser, error, add
               <Reply submit={(replyText) => addAndHandleReply(duckId, formatReply(authedUser, replyText))} />
             </div>
             <div >
-              REPLY SECTION
+              <RepliesContainer duckId={duckId} />
             </div>
           </div>}
       {error ? <p >{error}</p> : null}
