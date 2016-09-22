@@ -2,20 +2,22 @@ import React, { PropTypes } from 'react'
 import { formatTimestamp } from 'helpers/utils'
 import Reply from 'react-icons/lib/fa/mail-reply'
 import Star from 'react-icons/lib/fa/star'
+import { Map } from 'immutable'
 // import {
 //   duckContainer, contentContainer, avatar, actionContainer,
 //   header, text, likeReplyContainer, icon, likedIcon, author,
 // } from './styles.css'
 
 Duck.propTypes = {
-  duck: PropTypes.shape({
-    avatar: PropTypes.string.isRequired,
-    duckId: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    timestamp: PropTypes.number.isRequired,
-    uid: PropTypes.string.isRequired,
-  }),
+  duck: PropTypes.instanceOf(Map),
+  // duck: PropTypes.shape({
+  //   avatar: PropTypes.string.isRequired,
+  //   duckId: PropTypes.string.isRequired,
+  //   name: PropTypes.string.isRequired,
+  //   text: PropTypes.string.isRequired,
+  //   timestamp: PropTypes.number.isRequired,
+  //   uid: PropTypes.string.isRequired,
+  // }),
   onClick: PropTypes.func,
   isLiked: PropTypes.bool.isRequired,
   addAndHandleLike: PropTypes.func.isRequired,
@@ -34,13 +36,13 @@ export default function Duck (props) {
       // className={duckContainer}
       // style={{cursor: props.hideReplyBtn === true ? 'default' : 'pointer'}}
       onClick={props.onClick}>
-        <img src={props.duck.avatar} />
+        <img src={props.duck.get('avatar')} />
         <div >
           <div >
-            <div onClick={props.goToProfile} >{props.duck.name}</div>
-            <div>{formatTimestamp(props.duck.timestamp)}</div>
+            <div onClick={props.goToProfile} >{props.duck.get('name')}</div>
+            <div>{formatTimestamp(props.duck.get('timestamp'))}</div>
           </div>
-          <div >{props.duck.text}</div>
+          <div >{props.duck.get('text')}</div>
           <div >
             {props.hideReplyBtn === true
               ? null
@@ -48,7 +50,7 @@ export default function Duck (props) {
             }
           </div>
           <div >
-            <Star  onClick={(e) => starFn(props.duck.duckId, e)} />
+            <Star  onClick={(e) => starFn(props.duck.get('duckId'), e)} />
             {props.hideLikeCount === true ? null : <div>{props.numberOfLikes}</div>}
           </div>
         </div>
